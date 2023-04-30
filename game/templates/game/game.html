@@ -1,14 +1,16 @@
 
 <!DOCTYPE html>
+
+
 <body>
   {% block content %}
   <h1>게임을 시작합니다!</h1>
   {% for img_url in selected_imgs %}
   <div>
-    <img src="{{ item.Imgs }}" alt="{{ item.name }}">
+    <img src="{{ item.Imgs.url }}" alt="{{ item.name }}" "br">
     <form method="post" id="form{{ forloop.counter }}">
     
-      {% csrf_token %} 
+      {% comment %} {% csrf_token %} 
       <label for="img_name{{ forloop.counter }}">이름:</label>
       <input type="text" name="img_name" id="img_name{{ forloop.counter }}" required>
       <input type="submit" value="제출">
@@ -50,4 +52,4 @@
   </script>
   {% endblock %}
   </body>
-  </html> 
+  </html>  {% endcomment %}
