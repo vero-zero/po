@@ -1,37 +1,53 @@
 
+<!DOCTYPE html>
 <body>
-{% block content %}
-<h1>게임을 시작합니다!</h1>
-{% for img_url in selected_imgs %}
-<div>
-  
-  <img src="{{ img_url.imgs }}" alt="{{ img_url.name }}">
-  <form method="post" id="form{{ forloop.counter }}">
+  {% block content %}
+  <h1>게임을 시작합니다!</h1>
+  {% for img_url in selected_imgs %}
+  <div>
+    <img src="{{ img_url }}" alt="{{ item.name }}">
+    <form method="post" id="form{{ forloop.counter }}">
+    
+      {% csrf_token %} 
+      <label for="img_name{{ forloop.counter }}">이름:</label>
+      <input type="text" name="img_name" id="img_name{{ forloop.counter }}" required>
+      <input type="submit" value="제출">
+    </form>
+    <button onclick="next()">Pass</button>
+  </div>
+  {% endfor %}
+  <form method="post" id="next-form" style="display: none;">
     {% csrf_token %}
-    <label for="img_name{{ forloop.counter }}">이름:</label>
-    <input type="text" name="img_name" id="img_name{{ forloop.counter }}" required>
-    <input type="submit" value="제출">
+    <input type="hidden" name="img_name" value="pass">
+    <input type="submit" id="next-submit">
   </form>
-  <button onclick="next()">Pass</button>
-</div>
-{% endfor %}
-<form method="post" id="next-form" style="display: none;">
-  {% csrf_token %}
-  <input type="hidden" name="img_name" value="pass">
-  <input type="submit" id="next-submit">
-</form>
-<script>
-  let counter = 1;
-  let timeoutId;
-  function next() {
-    document.getElementById(`form${counter}`).style.display = 'none';
-    document.getElementById('next-form').style.display = 'block';
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      document.getElementById('next-submit').click();
-    }, 5000);
-    counter++;
-  }
-</script>
-{% endblock %}
-</body>
+  <script>
+    let counter = 1;
+    let timeoutId;
+    function next() {
+      document.getElementById(`form${counter}`).style.display = 'none';
+      document.getElementById('next-form').style.display = 'block';
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        document.getElementById('next-submit').click();
+      }, 5000);
+      counter++;
+    }
+    function pass() {
+      document.getElementById(`form${counter}`).style.display = 'none';
+      counter++;
+      if (counter > {{ selected_imgs|length }}) {
+        document.getElementById('next-submit').click();
+      }
+      else {
+        document.getElementById(`form${counter}`).style.display = 'block';
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          document.getElementById('next-submit').click();
+        }, 5000);
+      }
+    }
+  </script>
+  {% endblock %}
+  </body>
+  </html> 
