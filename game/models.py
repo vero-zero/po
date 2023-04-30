@@ -5,7 +5,7 @@ from django.db import models
 
 class Items_List(models.Model):
     name = models.TextField(primary_key=True)
-    imgs = models.TextField()
+    imgs = models.ImageField(upload_to='images/')
     class Meta:
         db_table = "Items_List"  # 연결할 테이블 명
         managed = False
