@@ -16,4 +16,4 @@ class UserScore(models.Model):
     score = models.IntegerField(default=0)
     class Meta:
         db_table = "UserScore"  # 연결할 테이블 명
-        managed = True  # 데이터 추가 유무s
+        managed = True  # 데이터 추가 유무
