@@ -1,19 +1,30 @@
 from django.db import models
+import base64
 
-
-# Create your models here.
 
 class Items_List(models.Model):
-    name = models.TextField(primary_key=True,default='my_default_value')
-    imgs = models.ImageField(upload_to='images/')
-    class Meta:
-        db_table = "Items_List"  # 연결할 테이블 명
-        managed = False
-          # 데이터 추가 유무s
+    id = models.AutoField(primary_key=True)
+    name = models.TextField(default='my_default_value')
+    imgs = models.TextField()
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        with open(self.imgs.path, 'rb') as img_file:
+            encoded_string = base64.b64encode(img_file.read()).decode('utf-8')
+            self.imgs = encoded_string
+            self.save(update_fields=['imgs'])
+
+    class Meta:
+        db_table = "Items_List"
+        managed = False
+
+    
 class UserScore(models.Model):
+    id = models.AutoField(primary_key=True)
     nickname = models.CharField(max_length=50,default='my_default_value')
     score = models.IntegerField(default=0)
+
     class Meta:
-        db_table = "UserScore"  # 연결할 테이블 명
-        managed = True  # 데이터 추가 유무
+        db_table = "UserScore"
+        managed = True
