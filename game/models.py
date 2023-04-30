@@ -10,7 +10,7 @@ class Items_List(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
-        with open(self.imgs.path, 'rb') as img_file:
+        with open(self.imgs.path, 'rb',encoding='utf-8') as img_file:
             encoded_string = base64.b64encode(img_file.read()).decode('utf-8')
             self.imgs = encoded_string
             self.save(update_fields=['imgs'])
