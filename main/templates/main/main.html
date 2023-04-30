@@ -1,0 +1,20 @@
+<body>
+    <span id="button">
+        <form action="/main/startmain/" method="post">
+            <input type="text" name="nickname" id="text"><br>
+                <p id='msg'></p>
+                    {% csrf_token %}
+                        <button>
+                            게임시작
+                        </button>
+        </form>
+    </span>
+</body>
+
+<script>
+    search = location.search
+    if(search.indexOf('msg=1') > -1) {
+        alert('이미 사용중인 닉네임입니다.')
+        document.querySelector('#msg').innerHTML = '이미 사용중인 닉네임입니다.'
+    }
+</script>
