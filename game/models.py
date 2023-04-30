@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Items_List(models.Model):
-    name = models.TextField(primary_key=True)
+    name = models.TextField(primary_key=True,default='my_default_value')
     imgs = models.ImageField(upload_to='images/')
     class Meta:
         db_table = "Items_List"  # 연결할 테이블 명
@@ -12,7 +12,7 @@ class Items_List(models.Model):
           # 데이터 추가 유무s
 
 class UserScore(models.Model):
-    nickname = models.CharField(max_length=50)
+    nickname = models.CharField(max_length=50,default='my_default_value')
     score = models.IntegerField(default=0)
     class Meta:
         db_table = "UserScore"  # 연결할 테이블 명
