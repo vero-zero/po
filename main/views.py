@@ -14,8 +14,11 @@ def startmain(request):
             u = User()
             u.nickname = nickname
             u.save()
-            return render(request, 'game/game.html', {})
+            return render(request, 'game/startgame/', {})
         return render(request, 'main/main.html', {})
 
     return render(request, 'main/main.html', {})
 
+
+def static(request):
+    return render(request, '/static.html')
